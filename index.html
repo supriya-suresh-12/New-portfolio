@@ -142,13 +142,34 @@
                 flex-direction: column;
                 align-items: center;
                 justify-content: center;
-                transition: background-image 0.8s ease;
-                background-blend-mode: overlay;
+                transition: background-color 0.4s ease;
+            }
+            .word-stream {
+                position: absolute;
+                inset: 0;
+                display: flex;
+                flex-wrap: wrap;
+                gap: 2rem;
+                padding: 2rem;
+                opacity: 0.15;
+                font-size: 1.5rem;
+                font-weight: 800;
+                text-transform: uppercase;
+                pointer-events: none;
+                z-index: 5;
+            }
+            .word-item {
+                animation: word-float 15s linear infinite;
+                white-space: nowrap;
+            }
+            @keyframes word-float {
+                0% { transform: translateY(100vh); }
+                100% { transform: translateY(-100%); }
             }
             .intro-text-box {
                 background: #000;
                 color: #fff;
-                padding: 1rem 3rem;
+                padding: 1.5rem 4rem;
                 position: relative;
                 z-index: 20;
                 transform: skew(-10deg);
@@ -196,6 +217,8 @@
                 gap: 1rem;
                 transition: transform 0.3s ease, box-shadow 0.3s ease;
                 border: 1px solid rgba(0,0,0,0.03);
+                position: relative;
+                z-index: 50;
             }
             .dark .tool-card {
                 background: #1a1a1c;
@@ -214,6 +237,7 @@
                 font-size: 15vw;
                 pointer-events: none;
                 user-select: none;
+                z-index: 0;
             }
             .dark .journey-bg-element { opacity: 0.05; }
             .project-detail-close {
@@ -270,7 +294,7 @@
 <body class="bg-background dark:bg-dark-bg text-black transition-colors duration-500 overflow-x-hidden pt-16">
     <!-- Symbolic Intro -->
     <div id="intro-overlay" class="fixed inset-0 z-[100000] bg-black text-white font-headline text-6xl md:text-8xl font-black flex items-center justify-center p-8 text-center overflow-hidden">
-        <div class="intro-bg-mask"></div>
+        <div id="word-stream" class="word-stream"></div>
         <div class="intro-text-box">
             <span id="intro-name-span"></span>
         </div>
@@ -302,8 +326,6 @@
         </div>
     </div>
 
-    <!-- Intro Overlay -->
-    <div id="intro-overlay">Supriya Sureshbabu</div>
 
     <!-- Floating Pill NavBar -->
     <nav class="fixed top-6 left-1/2 -translate-x-1/2 z-[100] w-[90%] max-w-4xl">
@@ -350,7 +372,7 @@
                     <div class="relative group">
                         <div class="absolute -inset-1 bg-gradient-to-tr from-primary via-secondary to-tertiary rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-1000"></div>
                         <div class="relative bg-white rounded-xl overflow-hidden shadow-2xl">
-                            <img alt="Abstract digital sculpture" class="w-full h-[400px] object-cover transition-transform duration-700 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDwwifiRwpLWF1uJvGe_C2x34pEworpRkZ4hUKRsQ0EFinYhxPb8US2n1VSdVZsxs0_DpgbM95Lq4hyjz8YE9Pp_U29mWROVLIPGa1zwLVottWL57ouOcn-a9OaVQ70ANeX6RT2Xq8YRhJ7_48Qmn613eJeKQgzEVIwaRnWxoVy_F1SObhTQFgbYOUbuYzk5Q7pMHmwg0rzmcuaGHYO5qTbixqAz3zxG0IS-yURNaC1DHvR57rlsoLz_yoLAX8-Wp9v0q3rpu2zawKx"/>
+                            <img alt="Supriya Sureshbabu" class="w-full h-[400px] object-cover transition-transform duration-700 group-hover:scale-105" src="/assets/hero-working.png"/>
                         </div>
                     </div>
                 </div>
@@ -363,7 +385,7 @@
                 <div class="w-full md:w-1/2">
                     <div class="relative group">
                         <div class="absolute -inset-4 bg-primary/5 rounded-full blur-2xl transition-all"></div>
-                        <img alt="Professional portrait" class="relative rounded-2xl w-full h-[450px] object-cover shadow-lg grayscale dark:grayscale-0 hover:grayscale-0 transition-all duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCCMy5zSGWwauHTucaIpOXfmd01U4wKtUzc7OhKhXAUQvLOMq5QT1LrzKueHfsWtjbv5jnrL9EiML9ZALv7jQhSW29lbW4cAIY3PkdLtpwtpd-jhWbmoebO2t_IxIG4XVcX71Hv81vgm881kx6iptfRURvChq0JoeusHXRQwLsNMa0q4PGA74Y8oiUSAIbJ2Z6IWEEXPPlmD3xHSmSN0t7abCuA7nY32mSvfxoSZs-RVAHsPEQ9e4g9V6TtrVcSoj3m3D6HCs3EywGK"/>
+                        <img alt="Supriya Sureshbabu" class="relative rounded-2xl w-full h-[450px] object-cover shadow-lg hover:grayscale-0 transition-all duration-700" src="/assets/about-portrait.jpg"/>
                     </div>
                 </div>
                 <div class="w-full md:w-1/2 space-y-6">
@@ -388,8 +410,8 @@
         </section>
 
         <!-- Tools Journey -->
-        <section class="relative min-h-[400vh] bg-background dark:bg-dark-bg" id="tools">
-            <div class="sticky top-0 h-screen flex items-center justify-center overflow-hidden pointer-events-none">
+        <section class="relative bg-background dark:bg-dark-bg overflow-hidden" id="tools">
+            <div class="h-screen flex items-center justify-center sticky-tools-wrapper relative z-10">
                 <!-- Background Large Text -->
                 <div class="journey-bg-element text-primary left-[-5%] top-[10%] select-none">TOOLS</div>
                 <div class="journey-bg-element text-secondary right-[-5%] bottom-[10%] select-none">STACK</div>
@@ -428,8 +450,8 @@
                     </div>
                     <div class="tool-milestone absolute opacity-0 scale-75 blur-sm transition-all duration-500" style="top: 300px; left: 800px;">
                         <div class="tool-card group">
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/a/af/Adobe_Photoshop_CC_icon_2020.svg" class="w-8 h-8" alt="Photoshop">
-                            <span class="font-black dark:text-white">Photoshop</span>
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/0/0e/Canva_logo_2021.svg" class="w-8 h-8" alt="Canva">
+                            <span class="font-black dark:text-white">Canva</span>
                         </div>
                     </div>
                     <div class="tool-milestone absolute opacity-0 scale-75 blur-sm transition-all duration-500" style="top: 200px; left: 1100px;">
@@ -440,8 +462,8 @@
                     </div>
                     <div class="tool-milestone absolute opacity-0 scale-75 blur-sm transition-all duration-500" style="top: 350px; left: 1400px;">
                         <div class="tool-card group">
-                             <div class="w-8 h-8 bg-black dark:bg-white rounded flex items-center justify-center text-white dark:text-black text-[10px] font-black">AI</div>
-                            <span class="font-black dark:text-white">Generative AI</span>
+                             <div class="w-8 h-8 bg-[#cc0202] rounded flex items-center justify-center text-white text-[10px] font-black italic">B</div>
+                            <span class="font-black dark:text-white">Balsamiq</span>
                         </div>
                     </div>
                 </div>
@@ -449,7 +471,8 @@
         </section>
 
         <!-- Projects -->
-        <section class="relative py-20 spotlight-pink min-h-screen flex flex-col justify-center overflow-hidden" id="projects">
+        <section class="relative spotlight-pink overflow-hidden" id="projects">
+            <div class="h-screen flex flex-col justify-center projects-pin-wrapper relative z-10">
             <div class="max-w-7xl mx-auto px-8 mb-12">
                 <span class="font-label text-xs uppercase tracking-widest text-primary font-bold">Portfolio</span>
                 <h2 class="font-headline text-3xl md:text-5xl font-black tracking-tighter mt-2 dark:text-white">Projects.</h2>
@@ -458,7 +481,7 @@
                 <!-- Sri Sai Millets -->
                 <div class="project-item min-w-[320px] md:min-w-[420px] cursor-pointer group" data-project="millet">
                     <div class="relative overflow-hidden rounded-2xl aspect-[4/3] bg-zinc-100 dark:bg-dark-surface border border-zinc-200 dark:border-white/5 transition-all duration-500 group-hover:shadow-[0_20px_40px_rgba(0,0,0,0.1)] group-hover:border-primary/20">
-                         <div class="absolute inset-0 flex items-center justify-center opacity-5 dark:opacity-10 font-black text-4xl group-hover:opacity-10 transition-opacity dark:text-white uppercase">MILLET</div>
+                         <img src="/assets/aara-logo.png" class="absolute inset-0 w-full h-full object-contain p-8 group-hover:scale-105 transition-transform" alt="Aara">
                          <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
                     </div>
                     <div class="mt-5 space-y-1">
@@ -510,7 +533,7 @@
                 <!-- IRCTC Redesign -->
                 <div class="project-item min-w-[320px] md:min-w-[420px] cursor-pointer group" data-project="irctc">
                     <div class="relative overflow-hidden rounded-2xl aspect-[4/3] bg-zinc-100 dark:bg-dark-surface border border-zinc-200 dark:border-white/5 transition-all duration-500 group-hover:shadow-[0_20px_40px_rgba(0,0,0,0.1)] group-hover:border-primary/20">
-                         <div class="absolute inset-0 flex items-center justify-center opacity-5 dark:opacity-10 font-black text-4xl group-hover:opacity-10 transition-opacity dark:text-white uppercase">IRCTC</div>
+                         <img src="/assets/irctc-redesign.png" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform" alt="IRCTC">
                     </div>
                     <div class="mt-5 space-y-1">
                         <span class="text-[10px] font-bold uppercase tracking-widest text-primary">UX Case Study</span>
@@ -548,6 +571,7 @@
                     </div>
                 </div>
             </div>
+        </div>
         </section>
 
         <!-- Interests & Skills -->

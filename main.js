@@ -31,39 +31,52 @@ themeToggle.addEventListener('click', () => {
 });
 
 // --- 3 Second Glitch Typewriter Intro ---
+// --- Design Word Stream Logic ---
+const designWords = [
+    "Typography", "Layout", "Color", "Grid", "Contrast", "Alignment", "Proximity", "Repetition", "Balance", "Hierarchy", "WhiteSpace", "Branding", "UI", "UX", "Interaction", "Motion", "Prototype", "Wireframe", "Kerning", "Serif", "Sans-Serif", "Hue", "Saturation", "Value", "Minimalism", "Maximalism", "Bauhaus", "Swiss", "Pixel", "Vector", "Raster", "SVG", "Canvas", "Layer", "Mask", "Blend", "Opacity", "Resolution", "DPI", "AspectRatio", "Moodboard", "Persona", "JourneyMap", "Usability", "Accessibility", "Contrast", "Emphasis", "Rhythm", "Unity", "Texture", "Form", "Shape", "Line", "Space", "Size", "Scale", "Depth", "Perspective", "Symmetry", "Asymmetry", "Pattern", "Gradient", "Shadow", "Glow", "Illustration", "Iconography", "Animation", "Transitions", "Ease", "Curve", "Bezier", "Palette", "Scheme", "Analogous", "Complementary", "Triadic", "Monochromatic", "Font", "Typeface", "Leading", "Tracking", "Ligature", "Bleed", "Margin", "Padding", "Gutters", "Flexbox", "CSS", "HTML", "JS", "Framework", "DesignSystem", "StyleGuide", "Component", "Atomic", "DesignThinking", "Empathy", "Ideation", "Iteration", "Feedback", "Visual", "Concept", "Draft", "Pixel-Perfect", "Flow", "System"
+];
+
+const injectWords = () => {
+    const stream = document.getElementById('word-stream');
+    if (!stream) return;
+    designWords.forEach(word => {
+        const span = document.createElement('span');
+        span.className = 'word-item';
+        span.innerText = word;
+        span.style.animationDelay = `${Math.random() * 5}s`;
+        span.style.left = `${Math.random() * 90}%`;
+        stream.appendChild(span);
+    });
+};
+
 const introOverlay = document.getElementById('intro-overlay');
 const introNameSpan = document.getElementById('intro-name-span');
 const symbolicName = "Supriya";
-const symbolicImages = [
-  'https://images.unsplash.com/photo-1542332213-31f87348057f?auto=format&fit=crop&q=80', // S - Sunlight (Warmth)
-  'https://images.unsplash.com/photo-1501747162991-322ca16a1a09?auto=format&fit=crop&q=80', // u - Hands (Connection)
-  'https://images.unsplash.com/photo-1495231916356-a86217efa7d2?auto=format&fit=crop&q=80', // p - Flower (Growth)
-  'https://images.unsplash.com/photo-1490237014491-8aa29811ea61?auto=format&fit=crop&q=80', // r - Candle (Comfort)
-  'https://images.unsplash.com/photo-1505118380757-91f5f5832de0?auto=format&fit=crop&q=80', // i - Calm Water (Peace)
-  'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80', // y - Soft Smile (Kindness)
-  'https://images.unsplash.com/photo-1516733725897-1aa73b87c8e8?auto=format&fit=crop&q=80'  // a - Glow (Final effect)
+const symbolicColors = [
+  '#FF8E8E', // S - Pink
+  '#B6A6E6', // u - Lavender
+  '#C6E3FA', // p - Sky
+  '#FFF1C1', // r - Cream
+  '#A3E635', // i - Lime
+  '#FFB7B7', // y - Peach
+  '#CC0202'  // a - Red (Balsamiq vibe)
 ];
 
 let symbolicIndex = 0;
 
 function runSymbolicIntro() {
+  injectWords();
   const introInterval = setInterval(() => {
     if (symbolicIndex < symbolicName.length) {
       const char = symbolicName[symbolicIndex];
-      const img = symbolicImages[symbolicIndex];
+      const color = symbolicColors[symbolicIndex];
       
       // Update Name
       introNameSpan.innerText += char;
       
       // Update Background
-      introOverlay.style.backgroundImage = `url(${img})`;
-      introOverlay.style.backgroundSize = 'cover';
-      introOverlay.style.backgroundPosition = 'center';
-      
-      // Add Zoom Effect
-      introOverlay.classList.remove('intro-zoom');
-      void introOverlay.offsetWidth; // Trigger reflow
-      introOverlay.classList.add('intro-zoom');
+      introOverlay.style.backgroundColor = color;
+      introOverlay.style.backgroundImage = 'none';
 
       symbolicIndex++;
     } else {
@@ -81,9 +94,9 @@ function runSymbolicIntro() {
             introOverlay.style.display = 'none';
           }
         });
-      }, 1000); // 1s of disco!
+      }, 1000);
     }
-  }, 400); // 0.4s per letter = 2.8s total + disco
+  }, 400);
 }
 
 runSymbolicIntro();
@@ -256,13 +269,16 @@ const projectsContainer = document.getElementById('projects-container');
 const projectItems = gsap.utils.toArray('.project-item');
 
 if (projectsContainer && projectItems.length > 0) {
+  // Calculate exact scroll distance
+  const getScrollAmount = () => -(projectsContainer.scrollWidth - window.innerWidth + 100);
+
   gsap.to(projectItems, {
-    x: () => -(projectsContainer.scrollWidth - window.innerWidth + 100),
+    x: getScrollAmount,
     ease: 'none',
     scrollTrigger: {
       trigger: '#projects',
       start: 'top top',
-      end: () => `+=${projectsContainer.scrollWidth}`,
+      end: () => `+=${projectsContainer.scrollWidth - window.innerWidth}`,
       pin: true,
       scrub: 1,
       invalidateOnRefresh: true,
@@ -296,43 +312,32 @@ const toolJourney = () => {
         scrollTrigger: {
             trigger: "#tools",
             start: "top top",
-            end: "bottom bottom",
+            end: "+=2000",
+            pin: true,
             scrub: 1.5,
         }
     });
 
+    // Move traveler along path
     timeline.to([traveler, travelerCore], {
         motionPath: {
-            path: path,
-            align: path,
+            path: "#journey-path",
+            align: "#journey-path",
             alignOrigin: [0.5, 0.5]
         },
+        duration: 2,
         ease: "none"
     });
 
-    // Milestone triggers based on progress
+    // Reveal milestones based on progress
     milestones.forEach((milestone, i) => {
-        ScrollTrigger.create({
-            trigger: "#tools",
-            start: `${15 + (i * 18)}% center`,
-            onEnter: () => {
-                gsap.to(milestone, { 
-                    opacity: 1, 
-                    scale: 1, 
-                    filter: 'blur(0px)', 
-                    duration: 0.5, 
-                    ease: "back.out(1.7)" 
-                });
-            },
-            onLeaveBack: () => {
-                gsap.to(milestone, { 
-                    opacity: 0, 
-                    scale: 0.75, 
-                    filter: 'blur(4px)', 
-                    duration: 0.3 
-                });
-            }
-        });
+        timeline.to(milestone, {
+            opacity: 1,
+            scale: 1,
+            filter: "blur(0px)",
+            duration: 0.5,
+            ease: "back.out(1.7)"
+        }, (i + 1) * 0.3); // Stagger relative to traveler movement
     });
 };
 
