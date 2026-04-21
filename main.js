@@ -26,9 +26,20 @@ themeToggle.addEventListener('click', () => {
   const isDark = html.classList.contains('dark');
   localStorage.setItem('theme', isDark ? 'dark' : 'light');
   
-  // Optional: Add a quick GSAP transition effect on toggle
+  // Quick GSAP transition effect on toggle
   gsap.fromTo('body', { opacity: 0.8 }, { opacity: 1, duration: 0.5 });
 });
+
+// --- Section Reveal on Scroll ---
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.15 });
+document.querySelectorAll('.section-reveal').forEach(el => revealObserver.observe(el));
+
 
 // --- 3 Second Glitch Typewriter Intro ---
 // --- Design Word Stream Logic ---
@@ -82,25 +93,23 @@ function runSymbolicIntro() {
     } else {
       clearInterval(introInterval);
       
-      // Transition to Disco Mode
-      introOverlay.classList.add('disco-mode');
-      
-      // Final hide
-      setTimeout(() => {
-        gsap.to(introOverlay, {
-          opacity: 0,
-          duration: 1,
-          onComplete: () => {
-            introOverlay.style.display = 'none';
-          }
-        });
-      }, 1000);
+      // Subtle gentle fade — no disco flicker
+      gsap.to(introOverlay, {
+        opacity: 0,
+        duration: 1.2,
+        delay: 0.4,
+        ease: 'power2.inOut',
+        onComplete: () => {
+          introOverlay.style.display = 'none';
+        }
+      });
     }
+
   }, 400);
 }
 
 runSymbolicIntro();
-toolJourney();
+
 
 // --- Project Data & Modal Logic ---
 const projectData = {
@@ -272,7 +281,7 @@ if (projectsContainer && projectItems.length > 0) {
   // Calculate exact scroll distance
   const getScrollAmount = () => -(projectsContainer.scrollWidth - window.innerWidth + 100);
 
-  gsap.to(projectItems, {
+  gsap.to(projectsContainer, {
     x: getScrollAmount,
     ease: 'none',
     scrollTrigger: {
@@ -285,6 +294,9 @@ if (projectsContainer && projectItems.length > 0) {
     }
   });
 }
+
+// Initialize tool journey after definition
+toolJourney();
 
 // --- Visual Reveals ---
 gsap.from('.interest-img, .experience-timeline > div', {
@@ -301,12 +313,11 @@ gsap.from('.interest-img, .experience-timeline > div', {
 
 // --- Tool Journey Animation ---
 const toolJourney = () => {
-    const path = document.querySelector('#journey-path');
-    const traveler = document.querySelector('#path-traveler');
-    const travelerCore = document.querySelector('#path-traveler-core');
     const milestones = document.querySelectorAll('.tool-milestone');
-    
-    if (!path || !traveler) return;
+    if (!milestones.length) return;
+
+    // Set initial hidden state via GSAP (not in HTML, so no flash-of-hidden content)
+    gsap.set(milestones, { opacity: 0, y: 20, scale: 0.85 });
 
     const timeline = gsap.timeline({
         scrollTrigger: {
@@ -318,28 +329,18 @@ const toolJourney = () => {
         }
     });
 
-    // Move traveler along path
-    timeline.to([traveler, travelerCore], {
-        motionPath: {
-            path: "#journey-path",
-            align: "#journey-path",
-            alignOrigin: [0.5, 0.5]
-        },
-        duration: 2,
-        ease: "none"
-    });
-
-    // Reveal milestones based on progress
+    // Reveal each card with a staggered pop-in as you scroll
     milestones.forEach((milestone, i) => {
         timeline.to(milestone, {
             opacity: 1,
+            y: 0,
             scale: 1,
-            filter: "blur(0px)",
             duration: 0.5,
             ease: "back.out(1.7)"
-        }, (i + 1) * 0.3); // Stagger relative to traveler movement
+        }, 0.15 + i * 0.45);
     });
 };
+
 
 // --- Wave Surge Animation ---
 gsap.to('#wave-1', {
