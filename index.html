@@ -6,7 +6,7 @@
     <title>Supriya Sureshbabu | UI/UX Designer Portfolio</title>
     <link href="https://fonts.googleapis.com" rel="preconnect"/>
     <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-    <link href="https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,100..900;1,100..900&amp;family=Manrope:wght@200..800&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,100..900;1,100..900&amp;family=Manrope:wght@200..800&amp;family=Cormorant+Garamond:ital,wght@1,300;1,400;1,500;1,600;1,700&amp;family=Amsterdam+One&amp;display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <script id="tailwind-config">
@@ -311,6 +311,32 @@
             .dark .dark-tools-fade-top  { display: block !important; }
             .dark .dark-tools-fade-bottom { display: block !important; }
             .dark .bg-to-transparent, .dark > .absolute[style*="#FCF5EE"] { display: none; }
+
+            /* Modal image gallery */
+            #modal-images {
+                display: flex;
+                gap: 1rem;
+                overflow-x: auto;
+                padding-bottom: 1rem;
+                scrollbar-width: none;
+            }
+            #modal-images::-webkit-scrollbar { display: none; }
+            .modal-img-item {
+                flex: 0 0 auto;
+                border-radius: 1rem;
+                overflow: hidden;
+                box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+                transition: transform 0.3s ease;
+                cursor: zoom-in;
+            }
+            .modal-img-item:hover { transform: scale(1.02); }
+            .modal-img-item img {
+                height: 300px;
+                width: auto;
+                max-width: 600px;
+                object-fit: cover;
+                display: block;
+            }
         </style>
 </head>
 <body class="bg-background dark:bg-dark-bg text-black transition-colors duration-500 overflow-x-hidden pt-16">
@@ -331,6 +357,10 @@
         <div class="project-detail-close bg-primary dark:bg-primary text-white" id="modal-close">X CLOSE</div>
         <div class="max-w-4xl mx-auto">
             <h2 id="modal-title" class="font-headline text-4xl md:text-6xl font-black tracking-tighter mb-8 dark:text-white"></h2>
+
+            <!-- Project Image Gallery -->
+            <div id="modal-images" class="mb-10"></div>
+
             <div class="space-y-12">
                 <section>
                     <h3 class="text-xs uppercase tracking-widest text-zinc-400 font-bold mb-4">Description</h3>
@@ -374,27 +404,34 @@
         <!-- Hero Section -->
         <section class="relative min-h-[90vh] flex items-center pt-24 overflow-hidden">
             <div class="max-w-7xl mx-auto px-8 w-full flex flex-col md:flex-row items-center gap-12">
+                <!-- Text -->
                 <div class="w-full md:w-3/5 relative">
-                    <div class="absolute left-0 w-full flex justify-start gap-12 z-0 top-0">
-                        <div class="relative flex flex-col items-center"><div class="w-4 h-4 bg-zinc-800 dark:bg-zinc-200 rounded-full z-10 shadow-lg"></div><div class="absolute top-2 w-64 h-96 light-cone-pink origin-top"></div></div>
-                        <div class="relative flex flex-col items-center"><div class="w-4 h-4 bg-zinc-800 dark:bg-zinc-200 rounded-full z-10 shadow-lg"></div><div class="absolute top-2 w-64 h-96 light-cone-blue origin-top"></div></div>
+                    <div class="absolute left-0 w-full flex justify-start gap-16 z-0 top-0">
+                        <div class="relative flex flex-col items-center"><div class="absolute top-0 w-64 h-96 light-cone-pink origin-top"></div></div>
+                        <div class="relative flex flex-col items-center"><div class="absolute top-0 w-64 h-96 light-cone-blue origin-top"></div></div>
                     </div>
                     <div class="relative z-10 pt-8">
-                        <h1 class="font-headline text-4xl md:text-6xl font-black tracking-tighter leading-[0.95] text-on-background dark:text-white">
-                            UI/UX Designer <br/>Crafting <span class="text-primary italic">User-Centered</span> <br/>Experiences.
+                        <h1 class="font-headline text-4xl md:text-5xl font-black tracking-tighter leading-[1.05] text-on-background dark:text-white">
+                            Designing<br/>
+                            experiences that<br/>
+                            <em style="font-family:'Cormorant Garamond', serif; font-style:italic; font-weight:600;">speak</em> before words<br/>
+                            do.
                         </h1>
-                        <p class="mt-6 text-zinc-500 dark:text-zinc-400 text-lg max-w-md">Computer Science Engineering student focused on intuitive interfaces and functional product design.</p>
+                        <p class="mt-6 text-zinc-500 dark:text-zinc-400 text-base max-w-md font-body">
+                            UI/UX Designer &amp; CSE student crafting intuitive, human-first digital experiences.
+                        </p>
                         <div class="mt-8 flex gap-4">
-                            <a href="#projects" class="bg-primary text-white px-8 py-4 rounded-full font-bold hover:shadow-lg transition-all">View Work</a>
+                            <a href="#projects" class="bg-primary text-white px-8 py-4 rounded-full font-bold hover:shadow-lg hover:scale-105 active:scale-95 transition-all">View Work</a>
                             <a href="#about" class="border border-zinc-200 dark:border-zinc-800 px-8 py-4 rounded-full font-bold hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-all dark:text-white">My Story</a>
                         </div>
                     </div>
                 </div>
+                <!-- Photo -->
                 <div class="w-full md:w-2/5">
                     <div class="relative group">
                         <div class="absolute -inset-1 bg-gradient-to-tr from-primary via-secondary to-tertiary rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-1000"></div>
                         <div class="relative bg-white rounded-xl overflow-hidden shadow-2xl">
-                            <img alt="Supriya Sureshbabu" class="w-full h-[400px] object-cover transition-transform duration-700 group-hover:scale-105" src="/src/assets/hero page photo.jpeg"/>
+                            <img alt="Supriya Sureshbabu" class="w-full h-[420px] object-cover transition-transform duration-700 group-hover:scale-105" src="/src/assets/hero page photo.jpeg"/>
                         </div>
                     </div>
                 </div>
@@ -402,30 +439,23 @@
         </section>
         
         <!-- About Me -->
-        <section class="relative py-20 spotlight-pink" id="about">
-            <div class="max-w-7xl mx-auto px-8 flex flex-col md:flex-row items-center gap-12">
-                <div class="w-full md:w-1/2">
-                    <div class="relative group">
-                        <div class="absolute -inset-4 bg-primary/5 rounded-full blur-2xl transition-all"></div>
-                        <img alt="Supriya Sureshbabu" class="relative rounded-2xl w-full h-[450px] object-cover shadow-lg hover:grayscale-0 transition-all duration-700" src="/src/assets/about me photo.jpg"/>
+        <section class="relative py-24 spotlight-pink" id="about">
+            <div class="max-w-3xl mx-auto px-8 text-center space-y-8">
+                <span class="font-label text-xs uppercase tracking-widest text-primary font-bold">About Me</span>
+                <h2 class="font-headline text-4xl md:text-6xl font-black tracking-tighter leading-tight dark:text-white">
+                    Design <em style="font-family:'Cormorant Garamond', serif; font-style:italic; font-weight:600;">Thinking</em><br/>meets Logic.
+                </h2>
+                <p class="text-zinc-600 dark:text-zinc-400 text-lg leading-relaxed font-body max-w-2xl mx-auto">
+                    Passionate UI/UX designer and Computer Science Engineering student with hands-on experience in wireframing, prototyping, and usability-focused design. I specialise in translating user needs into intuitive interfaces using Figma and Adobe XD.
+                </p>
+                <div class="grid grid-cols-2 gap-4 max-w-md mx-auto pt-2">
+                    <div class="bg-accent-cream/30 dark:bg-dark-surface p-5 rounded-2xl">
+                        <span class="block text-xl font-black dark:text-white">Pursuing B.E.</span>
+                        <span class="text-xs text-zinc-500 uppercase font-bold">CSE (SNS College)</span>
                     </div>
-                </div>
-                <div class="w-full md:w-1/2 space-y-6">
-                    <span class="font-label text-xs uppercase tracking-widest text-primary font-bold">About Me</span>
-                    <h2 class="font-headline text-3xl md:text-5xl font-black tracking-tighter leading-tight dark:text-white">Design Thinking <br/>meets Logic.</h2>
-                    <p class="text-zinc-600 dark:text-zinc-400 text-base leading-relaxed font-body">
-                        Passionate UI/UX designer and Computer Science Engineering student with hands-on experience in wireframing, prototyping, and usability-focused design. I specialize in translating user needs into intuitive interfaces using Figma and Adobe XD.
-                    </p>
-                    <div class="grid grid-cols-2 gap-4">
-                        <div class="bg-accent-cream/20 dark:bg-dark-surface p-4 rounded-2xl">
-                            <span class="block text-xl font-black dark:text-white">Pursuing B.E.</span>
-                            <span class="text-xs text-zinc-500 uppercase font-bold">CSE (SNS College)</span>
-                        </div>
-                        <div class="bg-accent-cream/20 dark:bg-dark-surface p-4 rounded-2xl">
-                            <span class="block text-xl font-black dark:text-white">2023 - 2027</span>
-                            <span class="text-xs text-zinc-500 uppercase font-bold">Academic Cycle</span>
-                        </div>
-                    </div>
+                    <div class="bg-accent-cream/30 dark:bg-dark-surface p-5 rounded-2xl">
+                        <span class="block text-xl font-black dark:text-white">2023 – 2027</span>
+                        <span class="text-xs text-zinc-500 uppercase font-bold">Academic Cycle</span>
                     </div>
                 </div>
             </div>

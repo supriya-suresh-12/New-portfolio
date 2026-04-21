@@ -122,7 +122,12 @@ const projectData = {
       "Optimized checkout flow for minimal friction",
       "Focused on accessibility and user-friendly layouts"
     ],
-    outcome: "A seamless shopping experience that enhances user trust and conversion efficiency."
+    outcome: "A seamless shopping experience that enhances user trust and conversion efficiency.",
+    images: [
+      "/src/assets/millets cover image.png",
+      "/src/assets/millets pop up image 1.png",
+      "/src/assets/millets pop up image 2.png"
+    ]
   },
   skillhive: {
     title: "Skill Hive – Mobile App & Admin System",
@@ -133,7 +138,11 @@ const projectData = {
       "Created admin panel for monitoring and control",
       "Maintained consistency across mobile and web interfaces"
     ],
-    outcome: "A scalable system that improves workflow efficiency and user engagement."
+    outcome: "A scalable system that improves workflow efficiency and user engagement.",
+    images: [
+      "/src/assets/skill hive innovations app cover image.png",
+      "/src/assets/skill hive innovations app popup image.png"
+    ]
   },
   budgetbee: {
     title: "Budget Bee – AI-Powered Expense Tracker",
@@ -144,7 +153,8 @@ const projectData = {
       "Integrated alert system for spending control",
       "Structured AI insights for better financial decisions"
     ],
-    outcome: "An intelligent finance tool that promotes better money habits and awareness."
+    outcome: "An intelligent finance tool that promotes better money habits and awareness.",
+    images: []
   },
   aara: {
     title: "Aara – Brand Identity Redesign",
@@ -155,7 +165,11 @@ const projectData = {
       "Built a cohesive color palette and visual style",
       "Ensured scalability across digital and print"
     ],
-    outcome: "A strong and versatile brand identity that improves recognition and visual consistency."
+    outcome: "A strong and versatile brand identity that improves recognition and visual consistency.",
+    images: [
+      "/src/assets/AARA old logo.jpeg",
+      "/src/assets/AARA.jpeg"
+    ]
   },
   karaoke: {
     title: "Karaoke App – Interactive Music Experience",
@@ -166,7 +180,12 @@ const projectData = {
       "Built engaging performance screens",
       "Focused on user engagement and smooth navigation"
     ],
-    outcome: "An immersive and enjoyable experience that encourages user participation and retention."
+    outcome: "An immersive and enjoyable experience that encourages user participation and retention.",
+    images: [
+      "/src/assets/karaoke app coverr.png",
+      "/src/assets/karaoke app popup image1.png",
+      "/src/assets/karaoke app popup image2.png"
+    ]
   },
   irctc: {
     title: "IRCTC Redesign – UX Case Study",
@@ -177,7 +196,11 @@ const projectData = {
       "Improved information hierarchy and clarity",
       "Designed a cleaner, user-friendly interface"
     ],
-    outcome: "A streamlined experience that reduces user frustration and booking complexity."
+    outcome: "A streamlined experience that reduces user frustration and booking complexity.",
+    images: [
+      "/src/assets/irctc redesign cover.png",
+      "/src/assets/irctc popup image.png"
+    ]
   },
   reme: {
     title: "Re-Me – Self Worth & Wellness App",
@@ -188,7 +211,11 @@ const projectData = {
       "Built habit-building and reflection features",
       "Focused on calm, minimal, and supportive UI"
     ],
-    outcome: "A meaningful digital experience that promotes mental well-being and personal growth."
+    outcome: "A meaningful digital experience that promotes mental well-being and personal growth.",
+    images: [
+      "/src/assets/reme cover.png",
+      "/src/assets/reme popup image.png"
+    ]
   },
   temple: {
     title: "Perungotukavu Amman Temple – Website Design",
@@ -199,7 +226,11 @@ const projectData = {
       "Created easy navigation for all age groups",
       "Focused on readability and accessibility"
     ],
-    outcome: "A meaningful digital platform that improves information access and community engagement."
+    outcome: "A meaningful digital platform that improves information access and community engagement.",
+    images: [
+      "/src/assets/temple cover.png",
+      "/src/assets/temple popup image.png"
+    ]
   },
   netflix: {
     title: "Netflix UI Recreation – Interface Study",
@@ -210,7 +241,11 @@ const projectData = {
       "Studied user flow and interaction patterns",
       "Improved spacing and alignment consistency"
     ],
-    outcome: "A refined understanding of industry-level UI design principles and scalability."
+    outcome: "A refined understanding of industry-level UI design principles and scalability.",
+    images: [
+      "/src/assets/netflix cover.png",
+      "/src/assets/netflix popup image.png"
+    ]
   }
 };
 
@@ -221,6 +256,8 @@ const modalContributions = document.getElementById('modal-contributions');
 const modalOutcome = document.getElementById('modal-outcome');
 const modalClose = document.getElementById('modal-close');
 
+const modalImages = document.getElementById('modal-images');
+
 function openModal(projectId) {
     const data = projectData[projectId];
     if (!data) return;
@@ -229,6 +266,24 @@ function openModal(projectId) {
     modalDesc.innerText = data.desc;
     modalContributions.innerHTML = data.contributions.map(c => `<li>${c}</li>`).join('');
     modalOutcome.innerText = data.outcome;
+
+    // Populate image gallery
+    modalImages.innerHTML = '';
+    if (data.images && data.images.length > 0) {
+        data.images.forEach(src => {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'modal-img-item';
+            const img = document.createElement('img');
+            img.src = src;
+            img.alt = data.title;
+            img.loading = 'lazy';
+            wrapper.appendChild(img);
+            modalImages.appendChild(wrapper);
+        });
+        modalImages.style.display = 'flex';
+    } else {
+        modalImages.style.display = 'none';
+    }
 
     modal.style.display = 'block';
     
